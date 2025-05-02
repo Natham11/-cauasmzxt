@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auxilio by @cauasmzxt</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .container {
+      background: rgba(20, 20, 20, 0.9);
+      border-radius: 12px;
+      max-width: 350px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px #9c27b0;
+    }
+    h2 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      background: #1a1a1a;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .tab.active {
+      background: #9c27b0;
+      color: #fff;
+    }
+    .checkbox {
+      margin: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .checkbox input {
+      margin-right: 8px;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    .radio-group {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+    }
+    .radio-group input {
+      margin-right: 5px;
+    }
+    button {
+      background: #9c27b0;
+      border: none;
+      padding: 15px;
+      width: 100%;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #7b1fa2;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+  <h2>AUXILIO BY @CAUASMZXT</h2>
+  <div class="tabs">
+    <div class="tab active">Aimbot</div>
+    <div class="tab">Info</div>
+  </div>
+
+  <div class="checkbox">
+    <input type="checkbox" id="ativarAux">
+    <label for="ativarAux">Ativar Auxílio</label>
+  </div>
+
+  <div class="checkbox">
+    <input type="checkbox" id="ativarFov">
+    <label for="ativarFov">Ativar Fov</label>
+  </div>
+
+  <input type="range" min="0" max="180" value="0" id="fovRange">
+  <div>Fov: <span id="fovValue">0</span></div>
+
+  <select id="tipoAuxilio">
+    <option>Auxilio Head</option>
+    <option>Auxilio Body</option>
+  </select>
+
+  <div>Tipo de Aimbot:</div>
+  <div class="radio-group">
+    <label><input type="radio" name="aimbot" checked> Ao Atirar</label>
+    <label><input type="radio" name="aimbot"> Ao Olhar</label>
+  </div>
+
+  <button onclick="injetar()">INJETAR FUNÇÕES NO JOGO</button>
+</div>
+
+<script>
+  const fovRange = document.getElementById('fovRange');
+  const fovValue = document.getElementById('fovValue');
+  fovRange.addEventListener('input', () => {
+    fovValue.textContent = fovRange.value;
+  });
+
+  function injetar() {
+    window.location.href = 'intent://com.dts.freefireth/#Intent;scheme=package;end';
+    alert("Funções injetadas! Abrindo Free Fire...");
+  }
+</script>
+
+<script>
+  const canvas = document.getElementById("bg");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      radius: 2,
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, idx) => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "#9c27b0";
+      ctx.fill();
+
+      for (let j = idx + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x;
+        const dy = p.y - q.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = "rgba(156, 39, 176, 0.1)";
+          ctx.stroke();
+        }
+      }
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>
