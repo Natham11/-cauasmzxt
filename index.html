@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #2e005d, #000);
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    input, button {
+      padding: 12px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #9c27b0;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Digite sua Key</h2>
+  <input type="password" id="senha" placeholder="Sua Key">
+  <br>
+  <button onclick="verificarSenha()">Entrar</button>
+
+  <script>
+    function verificarSenha() {
+      const senha = document.getElementById("senha").value;
+      const senhaCorreta = "cauasmzxt-dias-auxilio"; // 
+      if (senha === senhaCorreta) {
+        window.location.href = "painel.html";
+      } else {
+        alert("Senha incorreta!");
+      }
+    }
+  </script>
+</body>
+</html>
