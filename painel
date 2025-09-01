@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel iPhone</title>
+<style>
+  body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; background: #111; color: #fff; flex-direction: column; }
+  input { padding: 10px; font-size: 16px; margin-bottom: 10px; width: 80%; }
+  button { padding: 10px; font-size: 16px; cursor: pointer; }
+  .error { color: red; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h2>Digite sua Key</h2>
+<input type="text" id="keyInput" placeholder="Sua Key">
+<button onclick="validarKey()">Entrar</button>
+<div class="error" id="errorMsg"></div>
+
+<script>
+// Aqui você define suas keys e duração em dias
+const keys = [
+  {key: "ABC123", duration: 7}, // 7 dias
+  {key: "120", duration: 3}, // 3 dias
+];
+
+// Função para validar key
+function validarKey() {
+  const input = document.getElementById("keyInput").value;
+  const errorMsg = document.getElementById("errorMsg");
+  const hoje = new Date();
+
+  // Procura a key
+  const keyData = keys.find(k => k.key === input);
+
+  if (!keyData) {
+    errorMsg.textContent = "Key inválida!";
+    return;
+  }
+
+  // Verifica se já existe data de expiração no localStorage
+  const expKey = localStorage.getItem(input);
+  if (expKey) {
+    const expDate = new Date(expKey);
+    if (hoje > expDate) {
+      errorMsg.textContent = "Key expirada!";
+      return;
+    }
+  } else {
+    // Cria expiração da key
+    const expire = new Date();
+    expire.setDate(expire.getDate() + keyData.duration);
+    localStorage.setItem(input, expire.toISOString());
+  }
+
+  // Redireciona para o painel
+  window.location.href = "painel.html"; // Substitua pelo seu painel
+}
+</script>
+
+</body>
+</html>
